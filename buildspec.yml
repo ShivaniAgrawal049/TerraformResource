@@ -3,12 +3,21 @@ version: 0.1
 phases:
   build:
     commands:
+      - apt-get install git
       - apt-get install unzip
+      - mkdir flaskapp
+      - cd flaskapp
+      - git init
+      - git clone https://github.com/ShivaniAgrawal049/TerraformResource.git
+      - cd
       - wget https://releases.hashicorp.com/terraform/0.13.2/terraform_0.13.2_linux_amd64.zip
       - unzip terraform_0.13.2_linux_amd64.zip
       - echo $"export PATH=\$PATH:$(pwd)" >> ~/.bash_profile
+      - cd flaskapp
+      - #!/bin/bash
       - terraform init
-      - terraform apply
+      - terraform plan
+      - terraform apply 
 
   post_build:
     commands:
