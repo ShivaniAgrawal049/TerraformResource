@@ -1,5 +1,3 @@
-#provider block
-
 provider "aws" {
   access_key = "AKIA45MIFH5SF3GKC3FZ"
   secret_key = "f+1cLWWTKqZj3JUmoJ26an+TgjCPejlwpnyNZFom"
@@ -24,15 +22,20 @@ resource "aws_db_instance" "default" {
 }
 
 resource "aws_instance" "example" {
-  ami           = "ami-09052aa9bc337c78d"
+  ami           = "ami-2757f631"
   instance_type = "t2.micro"
+  key_name      = "InstanceAWS"
 }
+
+output "instance_public_dns"{
+  value = aws_instance.web.public_dns
+  }
 
    connection {
     type = "ssh"
     user = "ec2-user"
-    host = "self.public_ip"
-    private_key = "file("awskey1.pem")"
+    host = aws_instance.web.public_dns
+    private_key = ${file("awskey1.pem")}
   }
   
   #provisioners - remote-exec 
