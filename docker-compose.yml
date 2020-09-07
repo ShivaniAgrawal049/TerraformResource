@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  tf:
+    image: hashicorp/terraform:0.12.24
+    volumes:
+      - ./app
+    working_dir: /app
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY_ID=${AWS_SECRET_ACCESS_KEY_ID}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
+      
   flaskapp:
     build: ./aws-hackathon
     container_name: aws-hackathon
