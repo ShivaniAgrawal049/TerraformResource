@@ -6,17 +6,17 @@ provider "aws" {
   region     = "${var.region}"
 }
 
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnet_ids" "all" {
-  vpc_id = data.aws_vpc.default.id
-}
-
-data "aws_security_group" "default" {
-  vpc_id = data.aws_vpc.default.id
-  name   = "default"
+#Create Postgresql
+resource "aws_db_instance" "default" {
+  allocated_storage    = 20
+  engine               = "postgres"
+  engine_version       = var.engine_version
+  instance_class       = var.db_instance_type
+  name                 = "TerraformDb"
+  username             = var.database_username
+  password             = var.database_password
+  port                 = var.database_port
+  publicly_accessible  = true  
 }
 
 #Create EC2 instance
@@ -26,7 +26,7 @@ resource "aws_instance" "TestInstance1" {
   count = 1
   key_name = "awskey1"
   tags = {
-    Name = "TerraformCreated"
+    Name = "TerraformCreatedInstance"
   }
 
    connection {
