@@ -10,19 +10,23 @@ provider "aws" {
 resource "aws_db_instance" "default" {
   allocated_storage    = 20
   engine               = "postgres"
-  engine_version       = var.engine_version
-  instance_class       = var.db_instance_type
+  engine_version       = "${var.engine_version}"
+  instance_class       = "${var.db_instance_type}"
   name                 = "TerraformDb"
-  username             = var.database_username
-  password             = var.database_password
-  port                 = var.database_port
-  publicly_accessible  = true  
+  username             = "${var.database_username}"
+  password             = "${var.database_password}"
+  port                 = "${var.database_port}"
+  publicly_accessible  = true
+  auto_minor_version_upgrade = true
+  tags = {
+    Name = "TerraformCreatedDB"
+    }
 }
 
 #Create EC2 instance
 resource "aws_instance" "TestInstance1" {
   ami             = "ami-09052aa9bc337c78d"
-  instance_type   = "${var.ec_instance_type}"
+  instance_type   = "${var.instance_type}"
   count = 1
   key_name = "awskey1"
   tags = {
