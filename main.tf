@@ -61,5 +61,3 @@ resource "aws_instance" "TestInstance1" {
 
  }
 
-  }
-
