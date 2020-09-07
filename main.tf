@@ -36,7 +36,7 @@ resource "aws_instance" "TestInstance1" {
    connection {
     type = "ssh"
     user = "ec2-user"
-    host = "${self.public_ip}"
+    host = "self.public_ip"
     private_key = "${file("awskey1.pem")}"
   }
   
