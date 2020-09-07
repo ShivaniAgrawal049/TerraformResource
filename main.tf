@@ -31,26 +31,3 @@ output "instance_public_dns"{
   value = aws_instance.web.public_dns
   }
 
-   connection {
-    type = "ssh"
-    user = "ec2-user"
-    host = aws_instance.web.public_dns
-    private_key = ${file("awskey1.pem")}
-  }
-  
-  #provisioners - remote-exec 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum install -y git",
-      "sudo yum install -y docker",
-      "sudo yum install -y postgresql",
-      "sudo yum install -y docker",
-      "sudo mkdir flaskapp",
-      "sudo cd flaskapp",
-      "sudo git init",
-      "sudo git clone https://github.com/ShivaniAgrawal049/TerraformResource.git",
-      "sudo PGPASSWORD=postgres psql -h ${aws_db_instance.postgresql.endpoint} -p 5432 -U postgres",
-      "docker-compose up --build"
-    ]
-  }
-
