@@ -37,7 +37,7 @@ resource "aws_instance" "TestInstance1" {
     type = "ssh"
     user = "ec2-user"
     host = "self.public_ip"
-    private_key = "${file("awskey1.pem")}"
+    private_key = "file("awskey1.pem")"
   }
   
   #provisioners - remote-exec 
@@ -52,13 +52,6 @@ resource "aws_instance" "TestInstance1" {
       "sudo git init",
       "sudo git clone https://github.com/ShivaniAgrawal049/TerraformResource.git",
       "sudo PGPASSWORD=postgres psql -h ${aws_db_instance.postgresql.endpoint} -p 5432 -U postgres",
-      "\c lecture",
-      "CREATE TABLE USERDATA (FNAME VARCHAR NOT NULL , LNAME VARCHAR NOT NULL , EMAIL TEXT NOT NULL ,USERNAME VARCHAR NOT NULL UNIQUE , PASSWORD TEXT NOT NULL);",
-      "CREATE TABLE BOOKS (ISBN VARCHAR NOT NULL UNIQUE,TITLE VARCHAR NOT NULL,AUTHOR VARCHAR NOT NULL,PUBYEAR INTEGER NOT NULL);",
-      "CREATE TABLE BOOK_RATING(ISBN VARCHAR NOT NULL ,USERNAME VARCHAR NOT NULL ,RATING INTEGER NOT NULL);",
-      "CREATE TABLE BOOK_REVIEW(ISBN VARCHAR NOT NULL,USERNAME VARCHAR NOT NULL,REVIEW TEXT NOT NULL);",
-      "\copy BOOKS FROM '/home/ec2-user/flaskapp/aws-hackathon/books.csv' DELIMITER ',' CSV",
-      "\q",
       "docker-compose up --build"
     ]
   }
