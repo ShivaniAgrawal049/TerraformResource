@@ -23,15 +23,10 @@ resource "aws_db_instance" "default" {
     }
 }
 
-#Create EC2 instance
-resource "aws_instance" "TestInstance1" {
-  ami             = "ami-09052aa9bc337c78d"
-  instance_type   = "t2.micro"
-  count = 1
-  key_name = "awskey1"
-  tags = {
-    Name = "TerraformCreatedInstance"
-  }
+resource "aws_instance" "example" {
+  ami           = "ami-09052aa9bc337c78d"
+  instance_type = "t2.micro"
+}
 
    connection {
     type = "ssh"
