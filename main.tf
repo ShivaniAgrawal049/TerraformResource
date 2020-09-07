@@ -40,28 +40,27 @@ resource "aws_instance" "TestInstance1" {
     private_key = "${file("awskey1.pem")}"
   }
   
-#provisioners - File 
-   
-  provisioner "file" {
-    source      = "playbook.yaml"
-    destination = "/tmp/playbook.yaml"
-
- }
-
   #provisioners - remote-exec 
   provisioner "remote-exec" {
     inline = [
-      "sudo amazon-linux-extras install  ansible2 -y",
-      "sleep 10s",
-      "sudo ansible-playbook -i localhost /tmp/playbook.yaml",
-      "sudo chmod 657 /var/www/html"
+      "sudo yum install -y git",
+      "sudo yum install -y docker",
+      "sudo yum install -y postgresql",
+      "sudo yum install -y docker",
+      "sudo mkdir flaskapp",
+      "sudo cd flaskapp",
+      "sudo git init",
+      "sudo git clone https://github.com/ShivaniAgrawal049/TerraformResource.git",
+      "sudo PGPASSWORD=${var.database_password} psql -h ${aws_db_instance.postgresql.endpoint} -p 5432 -U ${var.database_username}",
+      "\c lecture",
+      "CREATE TABLE USERDATA (FNAME VARCHAR NOT NULL , LNAME VARCHAR NOT NULL , EMAIL TEXT NOT NULL ,USERNAME VARCHAR NOT NULL UNIQUE , PASSWORD TEXT NOT NULL);",
+      "CREATE TABLE BOOKS (ISBN VARCHAR NOT NULL UNIQUE,TITLE VARCHAR NOT NULL,AUTHOR VARCHAR NOT NULL,PUBYEAR INTEGER NOT NULL);",
+      "CREATE TABLE BOOK_RATING(ISBN VARCHAR NOT NULL ,USERNAME VARCHAR NOT NULL ,RATING INTEGER NOT NULL);",
+      "CREATE TABLE BOOK_REVIEW(ISBN VARCHAR NOT NULL,USERNAME VARCHAR NOT NULL,REVIEW TEXT NOT NULL);",
+      "\copy BOOKS FROM '/home/ec2-user/flaskapp/aws-hackathon/books.csv' DELIMITER ',' CSV",
+      "\q",
+      "sudo docker-compose up --build",
     ]
     
   }
-
-   provisioner "file" {
-    source      = "index.html"
-    destination = "/var/www/html/index.html"
-
- }
 
