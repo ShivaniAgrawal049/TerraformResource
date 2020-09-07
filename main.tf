@@ -47,6 +47,11 @@ resource "aws_instance" "TestInstance1" {
       "sudo yum install -y docker",
       "sudo yum install -y postgresql",
       "sudo yum install -y docker",
+      "sudo yum install -y unzip",
+      "wget https://releases.hashicorp.com/terraform/0.13.2/terraform_0.13.2_linux_amd64.zip",
+      "sudo unzip terraform_0.13.2_linux_amd64.zip",
+      "echo $"export PATH=\$PATH:$(pwd)" >> ~/.bash_profile"'
+      "source ~/.bash_profile",
       "sudo mkdir flaskapp",
       "sudo cd flaskapp",
       "sudo git init",
@@ -58,9 +63,7 @@ resource "aws_instance" "TestInstance1" {
       "CREATE TABLE BOOK_RATING(ISBN VARCHAR NOT NULL ,USERNAME VARCHAR NOT NULL ,RATING INTEGER NOT NULL);",
       "CREATE TABLE BOOK_REVIEW(ISBN VARCHAR NOT NULL,USERNAME VARCHAR NOT NULL,REVIEW TEXT NOT NULL);",
       "\copy BOOKS FROM '/home/ec2-user/flaskapp/aws-hackathon/books.csv' DELIMITER ',' CSV",
-      "\q",
-      "sudo docker-compose up --build",
+      "\q"
     ]
-    
   }
 
